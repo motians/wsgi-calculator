@@ -42,16 +42,51 @@ To submit your homework:
 """
 
 
+def directions():
+    """ Returns a STRING body with the calculator directions """
+
+    # TODO: Fill with directions
+
+    return "Directions"
+
 def add(*args):
     """ Returns a STRING with the sum of the arguments """
 
     # TODO: Fill sum with the correct value, based on the
     # args provided.
-    sum = "0"
+    # sum = "0"
 
-    return sum
+    sum = sum(map(int, args))
+
+    return str(sum)
+
+
+def subtract(*args):
+    """ Returns a STRING body with the calculator directions """
+
+    # TODO: Fill with directions
+
+    return "subtract"
+
+
+def multiply(*args):
+    """ Returns a STRING body with the calculator directions """
+
+    # TODO: Fill with directions
+
+    return "Multiply"
+
+
+def divide(*args):
+    """ Returns a STRING body with the calculator directions """
+
+    # TODO: Fill with directions
+
+    return "divide"
+
 
 # TODO: Add functions for handling more arithmetic operations.
+
 
 def resolve_path(path):
     """
@@ -59,14 +94,25 @@ def resolve_path(path):
     arguments.
     """
 
-    # TODO: Provide correct values for func and args. The
-    # examples provide the correct *syntax*, but you should
-    # determine the actual values of func and args using the
-    # path.
-    func = add
-    args = ['25', '32']
+    funcs = {
+        '': directions,
+        'add': add,
+        'subtract': subtract,
+        'multiply': multiply,
+        'divide': divide
+    }
+    path = path.strip('/').split('/')
+
+    func_name = path[0]
+    args = path[1:]
+
+    try:
+        func = funcs[func_name]
+    except KeyError:
+        raise NameError
 
     return func, args
+
 
 def application(environ, start_response):
     # TODO: Your application code from the book database
@@ -78,7 +124,8 @@ def application(environ, start_response):
     # to divide by zero.
     pass
 
+
 if __name__ == '__main__':
-    # TODO: Insert the same boilerplate wsgiref simple
-    # server creation that you used in the book database.
-    pass
+    from wsgiref.simple_server import make_server
+    srv = make_server('localhost', 8080, application)
+    srv.serve_forever()
