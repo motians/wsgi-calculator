@@ -47,48 +47,53 @@ import traceback
 def directions():
     """ Returns a STRING body with the calculator directions """
 
-    # TODO: Fill with directions
+    directions_body = """
+    <h1>Welcome to the Calculator!<h1>
+    
+    <h2>You provide the function and the numbers in the URL and I do the rest.</h2>
+    
+    <h3>Type the following into your browser URL box:</h3>
+    
+    <h4>http://localhost:8080/add/2/3 to add 2 + 3</h4>
+    <h4>http://localhost:8080/subtract/5/3 to subtract 3 from 5</h4>
+    <h4>http://localhost:8080/multiply/5/2 to multiply 2 x 3</h4>
+    <h4>http://localhost:8080/divide/10/5 to divide 10 by 2</h4>
+    
+    """
 
-    return "Directions"
+    return directions_body
 
 
 def add(*args):
     """ Returns a STRING with the sum of the arguments """
 
-    # TODO: Fill sum with the correct value, based on the
-    # args provided.
-    # sum = "0"
+    sum_result = sum(map(int, args))
 
-    sum = sum(map(int, args))
-
-    return f"The sum is: {str(sum)}"
+    return str(sum_result)
 
 
 def subtract(*args):
-    """ Returns a STRING body with the calculator directions """
+    """ Returns a STRING body with the arguments subtracted """
 
-    # TODO: Fill with directions
+    sub_result = int(args[0]) - int(args[1])
 
-    return "subtract"
+    return str(sub_result)
 
 
 def multiply(*args):
-    """ Returns a STRING body with the calculator directions """
+    """ Returns a STRING body with the arguments multiplied """
 
-    # TODO: Fill with directions
+    mul_result = int(args[0]) * int(args[1])
 
-    return "Multiply"
+    return str(mul_result)
 
 
 def divide(*args):
-    """ Returns a STRING body with the calculator directions """
+    """ Returns a STRING body with the arguments divided """
 
-    # TODO: Fill with directions
+    div_result = int(args[0]) / int(args[1])
 
-    return "divide"
-
-
-# TODO: Add functions for handling more arithmetic operations.
+    return str(div_result)
 
 
 def resolve_path(path):
@@ -132,7 +137,10 @@ def application(environ, start_response):
         body = "<h1>Not Found</h1>"
     except ZeroDivisionError:
         status = "500 Internal Server Error"
-        body = "<hl>Division by zero!</hl>"
+        body = "<hl>Division by zero is not allowed!</hl>"
+    except ValueError:
+        status = "500 Internal Server Error"
+        body = "<hl>Only numbers are allowed!</hl>"
     except Exception:
         status = "500 Internal Server Error"
         body = "<h1>Internal Server Error</h1>"
